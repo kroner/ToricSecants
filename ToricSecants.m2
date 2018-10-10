@@ -8,7 +8,6 @@ newPackage(
 	  {Name => "Robert Krone", Email => "rckrone@gmail.com"}
 	  },
      PackageImports => {
-	  "Normaliz"
 	  },
      PackageExports => {
 	  "NormalToricVarieties",
@@ -332,9 +331,9 @@ doc///
 	    two affine spaces.  The following produces the A-matrix for $3 \times 4$ matrices:
 	Example
 	    (n,m) = (3,4)
-	    A = segreAMatrix(1:(3,4))
+	    A = segreAMatrix(1:oo)
 	Text
-	    This package does not produce the ideal defining the variety.  For that use the
+	    This package does not produce the ideal defining the variety.  For that, use the
 	    {\tt FourTiTwo} package.  It will compute the dimensions of the secants, which
 	    are the varieties of the higher rank matrices:
 	Example
@@ -343,7 +342,7 @@ doc///
 	    toricSecantDim(A,3)
 	    toricSecantDim(A,4)
 	Text
-	    For generic matrix completion problems, we want understand the algebraic dependencies
+	    For generic matrix completion problems, we want to understand the algebraic dependencies
 	    between entries.  This is represented by an algebraic matroid.
 	Example
 	    M = toricSecantMatroid(A,2)
@@ -399,16 +398,16 @@ doc///
 	A = aMatrix T
     Inputs
 	M:Matrix
-	    A matrix of a monomials
+	    a matrix of a monomials
 	m:RingElement
-	    A monomial
+	    a monomial
 	L:List
-	    A list of monomials
+	    a list of monomials
 	T:ToricDivisor
-	    A toric divisor
+	    a toric divisor
     Outputs
 	A:Matrix
-	    The A-matrix of the toric variety
+	    the A-matrix of the toric variety
     Description
         Text
 	    Produces the matrix whose columns are the exponent vectors of the input monomials
@@ -428,24 +427,24 @@ doc///
     Headline
         A-matrix of a Segre variety
     Usage
-	A = segreAMatrix S
+	A = segreAMatrix D
     Inputs
-	S:Sequence
-	    A sequence of positive integer dimensions
+	D:Sequence
+	    a sequence of positive integer dimensions
     Outputs
 	A:Matrix
-	    The A-matrix of a Segre embedding of affine spaces
+	    the A-matrix of a Segre embedding of affine spaces
     Description
         Text
 	    Let $V_1,\ldots,V_k$ be affine spaces with $d_i$ the dimension of $V_i$. Applying
-	    {\tt segreAMatrix} to the sequence {\tt S} = $(d_1,\ldots,d_k)$ produces the 
+	    {\tt segreAMatrix} to the sequence {\tt D} = $(d_1,\ldots,d_k)$ produces the 
 	    A-matrix for the Segre emdedding of $V_1 \times \cdots \times V_k$ into a space
 	    of dimension $d_1 \cdots d_k$.
         Example
 	    segreAMatrix(1:(2,2,2))
 	Text
 	    An equivalent definition of the Segre variety is the set of rank 1 (or "pure") tensors
-	    in a tensor space of size $d_1 \times \cdots \times d_k$.  When {\tt S = (n,m)},
+	    in a tensor space of size $d_1 \times \cdots \times d_k$.  When {\tt D = (n,m)},
 	    the Segre variety is the set of rank 1 $n\times m$ matrices.  Its {\tt r}th secant is
 	    the variety of matrices of rank at most {\tt r}.
 	Example
@@ -467,12 +466,12 @@ doc///
 	A = veroneseAMatrix(n,d)
     Inputs
 	n:ZZ
-	    The affine dimension
+	    the affine dimension
 	d:ZZ
-	    The degree of the embedding
+	    the degree of the embedding
     Outputs
 	A:Matrix
-	    The A-matrix of the degree {\tt d} veronese embedding of the space
+	    the A-matrix of the degree {\tt d} veronese embedding of the space
     Description
         Text
 	    Let {\tt V} be an affine space with dimension {\tt n}. The degree {\tt d} embedding of
@@ -501,29 +500,64 @@ doc///
     Headline
         partial A-matrix of a Segre variety
     Usage
-	A = entriesAMatrix(ents,S)
+	A = entriesAMatrix(S,D)
     Inputs
-        ents:List
-	    A list of entries
-	S:Sequence
-	    A sequence of positive integer dimensions
+        S:List
+	    a list of entries
+	D:Sequence
+	    a sequence of positive integer dimensions
     Outputs
 	A:Matrix
-	    The partial A-matrix of a Segre embedding with columns corresponding to {\tt ents}
+	    the partial A-matrix of a Segre embedding with columns corresponding to {\tt S}
     Description
         Text
 	    The image of the monomial map associated to {\tt A} is the projection of the Segre
-	    embedding of a product of affine spaces with dimensions given by the sequence {\tt S}
-	    on to the coordinates indicated by the list {\tt ents}.
+	    embedding of a product of affine spaces with dimensions given by the sequence {\tt D}
+	    on to the coordinates indicated by the list {\tt S}.
 	    
-	    For {\tt S} = $(d_1,\ldots,d_k)$, each element of {\tt ents} should be a sequence of
-	    integers of length {\tt k} with {\tt i}th entry between 0 and $d_{i-1}$.
+	    For {\tt D} = $(d_1,\ldots,d_k)$, each element of {\tt S} should be a sequence of
+	    integers of length {\tt k} with {\tt i}th entry between 0 and $d_i-1$.
         Example
-	    ents = {(0,0),(0,1),(1,0)}
-	    A = entriesAMatrix(ents,(3,2))
+	    S = {(0,0),(0,1),(1,0)}
+	    A = entriesAMatrix(S,(3,2))
     SeeAlso
         symEntriesAMatrix
 	segreAMatrix
+///
+-------------------------------
+-- symEntriesAMatrix
+doc///
+    Key
+        symEntriesAMatrix
+	(symEntriesAMatrix,List,ZZ,ZZ)
+    Headline
+        partial A-matrix of a Veronese variety
+    Usage
+	A = entriesAMatrix(S,n,d)
+    Inputs
+        S:List
+	    a list of entries
+	n:ZZ
+	    the affine dimension
+	d:ZZ
+	    the degree of the embedding
+    Outputs
+	A:Matrix
+	    the partial A-matrix of a Veronese variety with columns corresponding to {\tt S}
+    Description
+        Text
+	    The image of the monomial map associated to {\tt A} is the projection of the {\tt d}th
+	    Veronese embedding of {\tt d}-dimensional affine space
+	    on to the coordinates indicated by the list {\tt S}.
+	    
+	    Each element of {\tt S} should be a sequence of integers between 0 and {\tt n}-1
+	    of length {\tt d}.
+        Example
+	    S = {(0,0),(0,1),(1,2)}
+	    A = symEntriesAMatrix(S,3,2)
+    SeeAlso
+        entriesAMatrix
+	veroneseAMatrix
 ///
 -------------------------------
 -- toricSecantDim
@@ -537,12 +571,12 @@ doc///
 	d = toricSecantDim(A,k)
     Inputs
 	A:Matrix
-	    The A-matrix of a toric variety
+	    the A-matrix of a toric variety
 	k:ZZ
-	    Order of the secant
+	    the order of the secant
     Outputs
 	d:ZZ
-	    The dimension of the {\tt k}th secant of variety defined by matrix {\tt A}
+	    the dimension of the {\tt k}th secant of variety defined by matrix {\tt A}
     Description
         Text
 	    A randomized algorithm for computing the affine dimension of a secant of a toric variety,
@@ -580,14 +614,14 @@ doc///
 	d = toricJoinDim L
     Inputs
 	A:Matrix
-	    The A-matrix of a toric variety
+	    the A-matrix of a toric variety
 	B:Matrix
-	    The A-matrix of a toric variety
+	    the A-matrix of a toric variety
 	L:List
-	    A list of A-matrices of toric varieties
+	    a list of A-matrices of toric varieties
     Outputs
 	d:ZZ
-	    The dimension of the join of the toric varieties defined by the matrices
+	    the dimension of the join of the toric varieties defined by the matrices
     Description
         Text
 	    A randomized algorithm for computing the affine dimension of a join of toric varieties,
@@ -610,6 +644,33 @@ doc///
 	joinIdeal
 ///
 -------------------------------
+-- fillingRank
+doc///
+    Key
+        fillingRank
+	(fillingRank,Matrix)
+    Headline
+        first secant that fills the space
+    Usage
+	r = fillingRank A
+    Inputs
+	A:Matrix
+	    the A-matrix of a toric variety
+    Outputs
+	r:ZZ
+	    the first secant that fills the space
+    Description
+        Text
+	    For any variety {\tt V}, there is some {\tt r} for which the {\tt r}th secant of
+	    {\tt V} is the entire linear span of {\tt V}.  This function finds the minimum
+	    such {\tt r} for the affine toric variety with A-matrix {\tt A}.
+        Example
+	    A = matrix{{4,3,2,1,0},{0,1,2,3,4}}
+	    fillingRank A
+    SeeAlso
+	toricSecantDim
+///
+-------------------------------
 -- toricSecantMatroid
 doc///
     Key
@@ -621,12 +682,12 @@ doc///
 	d = toricSecantMatroid(A,k)
     Inputs
 	A:Matrix
-	    The A-matrix of a toric variety
+	    the A-matrix of a toric variety
 	k:ZZ
-	    Order of the secant
+	    the order of the secant
     Outputs
 	M:Matroid
-	    The algebraic coordinate matroid of the {\tt k}th secant of variety defined by matrix {\tt A}
+	    the algebraic coordinate matroid of the {\tt k}th secant of variety defined by matrix {\tt A}
     Description
         Text
 	    The algebraic coordinate matroid of a variety in affine space is the matroid with ground set
@@ -658,12 +719,12 @@ doc///
 	J = secant(I,n)
     Inputs
 	I:Ideal
-	    An ideal of a ring R
+	    an ideal of a ring R
 	k:ZZ
-	    Order of the secant
+	    the order of the secant
     Outputs
 	J:Ideal
-	    The {\tt k}th secant of {\tt I}
+	    the {\tt k}th secant of {\tt I}
     Description
 	Text
 	    Computes the $k$th secant of $I$ by constructing the abstract secant and then projecting with elimination.
@@ -697,14 +758,14 @@ doc///
 	K = joinIdeal L
     Inputs
 	I:Ideal
-	    An ideal of a ring R
+	    an ideal of a ring R
 	J:Ideal
-	    Another ideal of R
+	    another ideal of R
 	L:List
-	    A list of ideals in the same ring
+	    a list of ideals in the same ring
     Outputs
 	K:Ideal
-	    The join of the input ideals
+	    the join of the input ideals
     Description
 	Text
 	    Computes the join by constructing the abstract join and then projecting with elimination.

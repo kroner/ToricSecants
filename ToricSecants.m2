@@ -331,6 +331,7 @@ doc///
 	    of degree 2 of the parameter variables.  This variety is also a Segre product of 
 	    two affine spaces.  The following produces the A-matrix for $3 \times 4$ matrices:
 	Example
+	    (n,m) = (3,4)
 	    A = segreAMatrix(1:(3,4))
 	Text
 	    This package does not produce the ideal defining the variety.  For that use the
@@ -342,10 +343,15 @@ doc///
 	    toricSecantDim(A,3)
 	    toricSecantDim(A,4)
 	Text
-	    Note that since a $3\times 4$ matrix can have rank at most 3, the third secant
-	    and all higher secants have full dimension 12.
-	    
-	    For generic matrix completion problems, we want to study projections of matrix
+	    For generic matrix completion problems, we want understand the algebraic dependencies
+	    between entries.  This is represented by an algebraic matroid.
+	Example
+	    M = toricSecantMatroid(A,2)
+	    C = circuits M;
+	    ents = (0,0)..(n-1,m-1);
+	    apply(C, c->matrixEntriesToString(n,m,apply(toList c, e->ents#e)))
+	Text
+	    We also want to project
 	    rank varieties on to subsets of the coordinates.  These are also secants of toric
 	    varieties, with A-matrices given by taking a subset of the columns of the A-matrix
 	    of the full rank 1 matrix variety.

@@ -335,7 +335,7 @@ doc///
 	    (n,m) = (3,4)
 	    A = segreAMatrix(1:oo)
 	Text
-	    This package does not produce the ideal defining the variety.  For that, use the
+	    This package does not produce the defining equations of the toric variety.  For that, use the
 	    {\tt FourTiTwo} package.  It will compute the dimensions of the secants, which
 	    are the varieties of the higher rank matrices:
 	Example
@@ -357,8 +357,8 @@ doc///
 	    varieties, with A-matrices given by taking a subset of the columns of the A-matrix
 	    of the full rank 1 matrix variety.
 	    
-	    A subset $S \subseteq [n]\times [m]$ (which can be thought of a bipartite graph),
-	    can be completed to rank {\tt r} if and only if the projection of the variety of
+	    A subset $S \subseteq [n]\times [m]$ of entries
+	    can be generically completed to rank {\tt r} if and only if the projection of the variety of
 	    rank {\tt r} matrices onto these coordinates is dominant.
 	Example
 	    S = {(0,1),(0,2),(1,0),(1,2),(2,0),(2,1)};

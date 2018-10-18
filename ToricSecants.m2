@@ -210,13 +210,15 @@ segreAMatrix(Sequence) := sizes -> (
     )
 
 entriesAMatrix = method()
-entriesAMatrix(List,Sequence) := (ents,sizes) -> (
-    transpose matrix toList apply(ents, e->entryToVect(e,sizes))
+entriesAMatrix(Sequence,Sequence) := (S,sizes) -> entriesAMatrix(toList S,sizes)
+entriesAMatrix(List,Sequence) := (S,sizes) -> (
+    transpose matrix toList apply(S, e->entryToVect(e,sizes))
     )
 
 symEntriesAMatrix = method()
-symEntriesAMatrix(List,ZZ,ZZ) := (ents,n,d) -> (
-    A := for e in ents list (
+symEntriesAMatrix(Sequence,ZZ,ZZ) := (S,n,d) -> symEntriesAMatrix(toList S,n,d)
+symEntriesAMatrix(List,ZZ,ZZ) := (S,n,d) -> (
+    A := for e in S list (
 	a := new MutableList from (n:0);
 	for i in e do a#i = a#i+1;
 	toList a
@@ -404,7 +406,6 @@ doc///
 	L:List
 	    a list of monomials
 	T:ToricDivisor
-	    a toric divisor
     Outputs
 	A:Matrix
 	    the A-matrix of the toric variety
@@ -703,6 +704,32 @@ doc///
 	    circuits M
     SeeAlso
 	toricSecantDim
+///
+-------------------------------
+-- linearDim
+doc///
+    Key
+        linearDim
+	(linearDim,Matrix)
+    Headline
+        dimension of the linear span of a toric variety
+    Usage
+	d = linearDim A
+    Inputs
+	A:Matrix
+	    the A-matrix of a toric variety
+    Outputs
+	d:ZZ
+	    the dimension of the linear span of the variety
+    Description
+        Text
+	    Typically the linear span of a toric variety is the full ambient space, which is
+	    the number of columns of {\tt A}.  The only
+	    exception is when a column of {\tt A} is repeated.  In this case, the variables
+	    corresponding to this column will always be equal.
+        Example
+	    A = matrix{{2,1,1,0},{0,1,1,2}}
+	    linearDim A
 ///
 -------------------------------
 -- Secants and Joins
